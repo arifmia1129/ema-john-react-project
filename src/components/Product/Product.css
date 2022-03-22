@@ -45,10 +45,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 800;
+    cursor: pointer;
 }
 
 .cart-icon{
-    width: 21px;
     padding-left:5px;
 }
 
