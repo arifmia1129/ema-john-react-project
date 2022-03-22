@@ -1,10 +1,16 @@
 .product{
     width: 300px;
     height: 510px;
+    border: 1px solid #95A0A7;
+    box-sizing: border-box;
+    border-radius: 8px;
+    position: relative;
 }
 .product img {
     width: 286px;
     height: 286px;
+    border-radius: 10px;
+    padding: 7px 7px 0px 7px;
 }
 
 .product-name{
@@ -12,4 +18,28 @@
     font-style: normal;
     font-weight: 400;
     font-size: 21px;
+    line-height:25.2px;
+    font-weight: 600;
+    margin-top: 0;
+}
+.product-info{
+    padding: 12px 14px;
+}
+.first-info{
+    line-height: 0;
+    font-size: 18px;
+}
+.second-info{
+    line-height: 5px;
+    position: absolute;
+    bottom: 45px;
+}
+
+.btn-cart{
+    width: 100%;
+    position:absolute;
+    bottom: 0;
+    border: 0;
+    border-radius: 0px 0px 8px 8px;
+    background-color: #FFE0B3;
 }
