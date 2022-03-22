@@ -42,4 +42,17 @@
     border: 0;
     border-radius: 0px 0px 8px 8px;
     background-color: #FFE0B3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-icon{
+    width: 21px;
+    padding-left:5px;
+}
+
+.btn-cart:hover{
+    background-color: orange;
+    color: white;
 }
