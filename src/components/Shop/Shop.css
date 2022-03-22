@@ -7,12 +7,15 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap:45px;
-    padding: 100px;
+    padding: 50px;
 }
 
 .order-container{
     background-color: rgba(255, 153, 0, 0.3);
     width: 264px;
+    height: 600px;
+    margin-top: 50px;
+    border-radius: 20px;
 }
 
 .order-container h1{
@@ -27,7 +30,7 @@
 .order-container button{
     width: 232px;
     height: 48px;
-    margin: 16px;
+    margin: 0 16px;
 }
 
 .first-btn{

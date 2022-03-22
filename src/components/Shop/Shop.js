@@ -20,6 +20,12 @@ const Shop = () => {
     const totalShipping = calculate(orders, "shipping");
     const totalTax = (totalPrice * 10) / 100;
     const grandTotal = totalPrice + totalShipping + totalTax;
+
+
+    const clearCart = () => {
+        const currentOrders = [];
+        setOrders(currentOrders);
+    }
     return (
         <div className='shop-container'>
             <div className="products-container">
@@ -40,7 +46,7 @@ const Shop = () => {
                     <h2>Grand total : {grandTotal}</h2>
                 </div>
                 <div>
-                    <button className='first-btn'>
+                    <button onClick={clearCart} className='first-btn'>
                         <p>Clear Cart</p>
                         <FontAwesomeIcon className='icon' icon={faTrashCan}></FontAwesomeIcon>
                     </button>
