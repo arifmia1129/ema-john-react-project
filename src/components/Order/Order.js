@@ -1,50 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { calculate } from '../../utilities/calculate';
-import Product from '../Product/Product';
-import "./Shop.css";
+import { faArrowRight, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { addToDb, storedCart, deleteShoppingCart } from '../../utilities/fakedb';
+import React from 'react';
+import useOrders from '../../hooks/useOrders';
 import useProducts from '../../hooks/useProducts';
-const Shop = () => {
+import { calculate } from '../../utilities/calculate';
+import { deleteShoppingCart, removeFromDb } from '../../utilities/fakedb';
+import OrderReview from '../OrderReview/OrderReview';
+import "./Order.css";
+
+const Order = () => {
     const [products, setProducts] = useProducts();
-    const [orders, setOrders] = useState([]);
-    useEffect(() => {
-        const stored = storedCart();
-        const savedCart = [];
-        for (const id in stored) {
-            const addedProducts = products.find(product => product.id === id);
-            if (addedProducts) {
-                const quantity = stored[id];
-                addedProducts.quantity = quantity;
-                savedCart.push(addedProducts);
-
-            }
-
-
-        }
-        setOrders(savedCart);
-    }, [products])
-
-    const addToOrderList = (product) => {
-        const exist = orders.find(order => order.id === product.id);
-        let totalOrders;
-        if (!exist) {
-            product.quantity = 1;
-            totalOrders = [...orders, product];
-        }
-
-        else {
-            product.quantity = product.quantity + 1;
-            const rest = orders.filter(order => order.id !== product.id);
-            totalOrders = [...rest, product];
-        }
-        setOrders(totalOrders);
-        addToDb(product.id);
-        if (product.quantity === 0) {
-            product.quantity = 1;
-        }
-    }
+    const [orders, setOrders] = useOrders(products);
     let totalQuantity = 0;
     let totalPrice = 0;
     for (const order of orders) {
@@ -56,21 +22,25 @@ const Shop = () => {
     const totalShipping = calculate(orders, "shipping");
     const totalTax = (totalPrice * 10) / 100;
     const grandTotal = totalPrice + totalShipping + totalTax;
-
-
     const clearCart = () => {
         const currentOrders = [];
         setOrders(currentOrders);
         deleteShoppingCart();
     }
+
+    const romoveItem = (item) => {
+        const rest = orders.filter(order => order.id !== item.id)
+        setOrders(rest);
+        removeFromDb(item.id);
+    }
     return (
-        <div className='shop-container'>
-            <div className="products-container">
+        <div className='container'>
+            <div>
                 {
-                    products.map(product => <Product key={product.id} product={product} addToOrderList={addToOrderList}></Product>)
+                    orders.map(order => <OrderReview key={order.id} romoveItem={romoveItem} order={order}></OrderReview>)
                 }
             </div>
-            <div className="order-container">
+            <div className="order">
                 <br />
                 <div className="order-info">
                     <h2>Order Summary</h2>
@@ -98,4 +68,4 @@ const Shop = () => {
     );
 };
 
-export default Shop;
+export default Order;
