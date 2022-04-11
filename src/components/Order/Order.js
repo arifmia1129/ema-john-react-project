@@ -1,6 +1,7 @@
 import { faArrowRight, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import useOrders from '../../hooks/useOrders';
 import useProducts from '../../hooks/useProducts';
 import { calculate } from '../../utilities/calculate';
@@ -33,6 +34,8 @@ const Order = () => {
         setOrders(rest);
         removeFromDb(item.id);
     }
+
+    const navigate = useNavigate();
     return (
         <div className='container'>
             <div>
@@ -58,7 +61,7 @@ const Order = () => {
                         <FontAwesomeIcon className='icon' icon={faTrashCan}></FontAwesomeIcon>
                     </button>
                     <br />
-                    <button className='second-btn'>
+                    <button className='second-btn' onClick={() => navigate("/shipping")}>
                         <p>Proceed Checkout</p>
                         <FontAwesomeIcon className='icon' icon={faArrowRight}></FontAwesomeIcon>
                     </button>
