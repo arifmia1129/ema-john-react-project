@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { addToDb, storedCart, deleteShoppingCart } from '../../utilities/fakedb';
 import useProducts from '../../hooks/useProducts';
+import { Link } from 'react-router-dom';
 const Shop = () => {
     const [products, setProducts] = useProducts();
     const [orders, setOrders] = useState([]);
@@ -88,10 +89,12 @@ const Shop = () => {
                         <FontAwesomeIcon className='icon' icon={faTrashCan}></FontAwesomeIcon>
                     </button>
                     <br />
-                    <button className='second-btn'>
-                        <p>Order Preview</p>
-                        <FontAwesomeIcon className='icon' icon={faArrowRight}></FontAwesomeIcon>
-                    </button>
+                    <Link to="/order" className='link-btn'>
+                        <button className='second-btn'>
+                            <p>Order Preview</p>
+                            <FontAwesomeIcon className='icon' icon={faArrowRight}></FontAwesomeIcon>
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>

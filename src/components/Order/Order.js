@@ -59,7 +59,7 @@ const Order = () => {
                     </button>
                     <br />
                     <button className='second-btn'>
-                        <p>Order Preview</p>
+                        <p>Proceed Checkout</p>
                         <FontAwesomeIcon className='icon' icon={faArrowRight}></FontAwesomeIcon>
                     </button>
                 </div>
