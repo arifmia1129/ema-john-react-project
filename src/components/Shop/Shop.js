@@ -8,13 +8,32 @@ import { addToDb, storedCart, deleteShoppingCart } from '../../utilities/fakedb'
 import useProducts from '../../hooks/useProducts';
 import { Link } from 'react-router-dom';
 const Shop = () => {
-    const [products, setProducts] = useProducts();
     const [orders, setOrders] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [items, setItems] = useState(10);
+
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+        fetch(`http://localhost:5000/product?page=${currentPage}&size=${items}`)
+            .then(res => res.json())
+            .then(data => setProducts(data));
+    }, [currentPage, items]);
+
+    useEffect(() => {
+        fetch("http://localhost:5000/productCount")
+            .then(res => res.json())
+            .then(data => {
+                const count = data.productCount;
+                const pages = Math.ceil(count / 10);
+                setPageCount(pages);
+            })
+    }, [])
     useEffect(() => {
         const stored = storedCart();
         const savedCart = [];
         for (const id in stored) {
-            const addedProducts = products.find(product => product.id === id);
+            const addedProducts = products.find(product => product._id === id);
             if (addedProducts) {
                 const quantity = stored[id];
                 addedProducts.quantity = quantity;
@@ -28,7 +47,7 @@ const Shop = () => {
     }, [products])
 
     const addToOrderList = (product) => {
-        const exist = orders.find(order => order.id === product.id);
+        const exist = orders.find(order => order._id === product._id);
         let totalOrders;
         if (!exist) {
             product.quantity = 1;
@@ -37,11 +56,11 @@ const Shop = () => {
 
         else {
             product.quantity = product.quantity + 1;
-            const rest = orders.filter(order => order.id !== product.id);
+            const rest = orders.filter(order => order._id !== product._id);
             totalOrders = [...rest, product];
         }
         setOrders(totalOrders);
-        addToDb(product.id);
+        addToDb(product._id);
         if (product.quantity === 0) {
             product.quantity = 1;
         }
@@ -66,11 +85,36 @@ const Shop = () => {
     }
     return (
         <div className='shop-container'>
-            <div className="products-container">
-                {
-                    products.map(product => <Product key={product._id} product={product} addToOrderList={addToOrderList}></Product>)
-                }
+            <div>
+                <div className="products-container">
+                    {
+                        products.map(product => <Product key={product._id} product={product} addToOrderList={addToOrderList}></Product>)
+                    }
+
+                </div>
+                <div className='array-container'>
+                    {
+                        [...Array(pageCount).keys()]
+                            .map(page =>
+                                <button
+                                    onClick={() => setCurrentPage(page)}
+                                    className={currentPage === page ? "currentPage" : ""}
+                                >
+                                    {page + 1}</button>
+                            )
+                    }
+
+                    <select onChange={(e) => setItems(e.target.value)}>
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+
+
+                </div>
             </div>
+
             <div className="order-container">
                 <br />
                 <div className="order-info">

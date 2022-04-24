@@ -30,9 +30,9 @@ const Order = () => {
     }
 
     const romoveItem = (item) => {
-        const rest = orders.filter(order => order.id !== item.id)
+        const rest = orders.filter(order => order._id !== item._id)
         setOrders(rest);
-        removeFromDb(item.id);
+        removeFromDb(item._id);
     }
 
     const navigate = useNavigate();
@@ -40,7 +40,7 @@ const Order = () => {
         <div className='container'>
             <div>
                 {
-                    orders.map(order => <OrderReview key={order.id} romoveItem={romoveItem} order={order}></OrderReview>)
+                    orders.map(order => <OrderReview key={order._id} romoveItem={romoveItem} order={order}></OrderReview>)
                 }
             </div>
             <div className="order">
